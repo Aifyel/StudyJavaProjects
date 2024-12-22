@@ -15,25 +15,8 @@ public class App
                     "На всё у вас есть 10 попыток\n" +
                     "Вводите ваши догадки в окно консоли");
 
-            Scanner sc = new Scanner(System.in);
-
             while (attempts > 0) {
-                int ans = 0;
-
-                boolean cont = false;
-                do {
-                    try {
-                        ans = sc.nextInt();
-                        if (ans >= 0 && ans <=100){
-                            cont = true;
-                        } else {
-                            System.out.println("Введите число от 0 до 100");
-                        }
-                    } catch (Exception e) {
-                        System.out.println("Введите число от 0 до 100");
-                        sc.next();
-                    }
-                } while (!cont);
+                int ans = getNumber();
 
                 if (ans == guess) {
                     System.out.println("Вы угадали!");
@@ -58,6 +41,27 @@ public class App
     public static int randomize() {
         Random rand = new Random();
         return rand.nextInt(100);
+    }
+
+    public static int getNumber() {
+        Scanner sc = new Scanner(System.in);
+        int ans = 0;
+
+        boolean cont = false;
+        do {
+            try {
+                ans = sc.nextInt();
+                if (ans >= 0 && ans <=100){
+                    cont = true;
+                } else {
+                    System.out.println("Введите число от 0 до 100");
+                }
+            } catch (Exception e) {
+                System.out.println("Введите число от 0 до 100");
+                sc.next();
+            }
+        } while (!cont);
+        return ans;
     }
 
     public static void restart() {

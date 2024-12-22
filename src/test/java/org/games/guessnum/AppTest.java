@@ -1,32 +1,54 @@
 package org.games.guessnum;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.jupiter.api.Test;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.ByteArrayInputStream;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+
+public class AppTest {
+    @Test
+    public void testValidRandom()
     {
-        super( testName );
+        int num = App.randomize();
+        assertTrue( num >= 0);
+        assertTrue( num <= 100);
     }
 
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
+    @Test
+    public void testValidInput() {
+        String input = "50";
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(input.getBytes());
+        Scanner mockScanner = new Scanner(inputStream);
+        System.setIn(inputStream);
+
+        int result = App.getNumber();
+        assertEquals(50, result);
+        mockScanner.close();
     }
 
-    public void testApp()
-    {
-        assertTrue( true );
+    @Test
+    void testInvalidInputAndThenValidInput() {
+        String input = "abc\n-10\n110\n75";
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(input.getBytes());
+        Scanner mockScanner = new Scanner(inputStream);
+        System.setIn(inputStream);
+
+        int result = App.getNumber();
+        assertEquals(75, result);
+        mockScanner.close();
+    }
+
+    @Test
+    void testException() {
+        String input = "abc";
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(input.getBytes());
+        Scanner mockScanner = new Scanner(inputStream);
+        System.setIn(inputStream);
+
+        assertThrows(NoSuchElementException.class, App::getNumber);
+        mockScanner.close();
     }
 }
