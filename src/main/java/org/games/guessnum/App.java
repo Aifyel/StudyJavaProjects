@@ -24,7 +24,7 @@ public class App
                 do {
                     try {
                         ans = sc.nextInt();
-                        if (ans >= 0){
+                        if (ans >= 0 && ans <=100){
                             cont = true;
                         } else {
                             System.out.println("Введите число от 0 до 100");
